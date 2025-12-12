@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIFAR-10 Image Classifier</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .classes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 25px 0;
+        }
+        
+        .class-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .class-item:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .upload-area {
+            border: 3px dashed #dee2e6;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+            background: #43607c;
+        }
+        
+        .upload-area:hover {
+            border-color: #233581;
+            background: #6677d4;
+        }
+        
+        .upload-area.highlight {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .prediction-main {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .prediction-class {
+            font-size: 1.8rem;
+            color: #28a745;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .prediction-confidence {
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
+        
+        .progress-bars {
+            margin-top: 20px;
+        }
+        
+        .progress-item {
+            margin: 8px 0;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 8px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .file-info {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #101111;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 CIFAR-10 Image Classifier</h1>
+            <p>Upload any image and see if our AI can recognize it!</p>
+        </div>
+        
+        <div class="content">
+            <div class="classes-grid">
+                <div class="class-item">✈️ Airplane</div>
+                <div class="class-item">🚗 Automobile</div>
+                <div class="class-item">🐦 Bird</div>
+                <div class="class-item">🐱 Cat</div>
+                <div class="class-item">🦌 Deer</div>
+                <div class="class-item">🐕 Dog</div>
+                <div class="class-item">🐸 Frog</div>
+                <div class="class-item">🐴 Horse</div>
+                <div class="class-item">🚢 Ship</div>
+                <div class="class-item">🚚 Truck</div>
+            </div>
+            
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <h3>Drag & Drop your image here</h3>
+                <p>or click to browse files</p>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                <button class="btn" onclick="document.getElementById('fileInput').click()" style="margin-top: 15px;">
+                    Choose Image
+                </button>
+                <div class="file-info" id="fileInfo">No file selected</div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="btn" id="predictBtn" disabled onclick="predictImage()">
+                    Classify Image
+                </button>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 10px;">Analyzing your image...</p>
+            </div>
+            
+            <div class="error" id="error"></div>
+            
+            <div class="result" id="result">
+                <div class="prediction-main">
+                    <h3>🎯 Prediction Result</h3>
+                    <div class="prediction-class" id="predictionClass"></div>
+                    <div class="prediction-confidence" id="predictionConfidence"></div>
+                </div>
+                
+                <div class="progress-bars" id="progressBars">
+                    <h4>All Predictions:</h4>
+                    <!-- Progress bars will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const predictBtn = document.getElementById('predictBtn');
+        const fileInfo = document.getElementById('fileInfo');
+        const loading = document.getElementById('loading');
+        const result = document.getElementById('result');
+        const error = document.getElementById('error');
+        
+        // Drag and drop functionality
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => uploadArea.classList.add('highlight'), false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('highlight'), false);
+        });
+        
+        uploadArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+        
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+        
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    fileInput.files = files;
+                    fileInfo.textContent = `Selected: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+                    predictBtn.disabled = false;
+                } else {
+                    showError('Please select an image file');
+                }
+            }
+        }
+        
+        async function predictImage() {
+            const file = fileInput.files[0];
+            if (!file) return;
+            
+            // Reset UI
+            loading.style.display = 'block';
+            result.style.display = 'none';
+            error.style.display = 'none';
+            predictBtn.disabled = true;
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayResult(data);
+                } else {
+                    showError(data.error || 'An error occurred during prediction');
+                }
+            } catch (err) {
+                showError('Network error: ' + err.message);
+            } finally {
+                loading.style.display = 'none';
+                predictBtn.disabled = false;
+            }
+        }
+        
+        function displayResult(data) {
+            document.getElementById('predictionClass').textContent = data.predicted_class;
+            document.getElementById('predictionConfidence').textContent = 
+                `Confidence: ${(data.confidence * 100).toFixed(2)}%`;
+            
+            const progressBars = document.getElementById('progressBars');
+            // Clear existing progress bars
+            progressBars.innerHTML = '<h4>All Predictions:</h4>';
+            
+            // Sort predictions by confidence
+            const sortedPredictions = Object.entries(data.all_predictions)
+                .sort(([,a], [,b]) => b - a);
+            
+            sortedPredictions.forEach(([className, confidence]) => {
+                const progressItem = document.createElement('div');
+                progressItem.className = 'progress-item';
+                
+                const progressLabel = document.createElement('div');
+                progressLabel.className = 'progress-label';
+                progressLabel.innerHTML = `
+                    <span>${className}</span>
+                    <span>${(confidence * 100).toFixed(1)}%</span>
+                `;
+                
+                const progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+                
+                const progressFill = document.createElement('div');
+                progressFill.className = 'progress-fill';
+                progressFill.style.width = `${confidence * 100}%`;
+                
+                progressBar.appendChild(progressFill);
+                progressItem.appendChild(progressLabel);
+                progressItem.appendChild(progressBar);
+                progressBars.appendChild(progressItem);
+            });
+            
+            result.style.display = 'block';
+        }
+        
+        function showError(message) {
+            error.textContent = message;
+            error.style.display = 'block';
+        }
+        
+        // Click on upload area to trigger file input
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+    </script>
+</body>
+</html>
