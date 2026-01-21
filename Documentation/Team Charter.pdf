@@ -1,1 +1,213 @@
-Test
+Project Team Charter
+Project Name:
+AI-Driven Financial Fraud Detection System Room 4
+
+Purpose:
+Design, build, and put in production an AI‑powered fraud detection system.
+
+Objectives:
+Reduction in false positives.
+Improvement in fraud detection rate.
+
+Team Members & Roles:
+Project Manager: VJ
+TS: AI Developer
+TM: Data & Ethics Officer
+DB: Business & Cost Analyst
+AP: UI/UX & Deployment Specialist
+JM: Quality & Security Reviewer
+
+Stakeholders:
+Sponsor
+Business owner
+
+Scope:
+Data ingestion
+Feature engineering
+Models
+Compliance & auditability
+
+Key Deliverables:
+Team Charter (signed) 
+Meeting Logs (min. 6 dated entries) 
+Ethics & Compliance Checklist 
+Costed Project Plan (Excel/Word) 
+GitHub Link + Commit History Screenshot 
+Deployed AI Demo (URL + video < 3 min) 
+Team Reflection Report (800–1200 words) 
+Individual Contribution Log (each member)
+
+Timeline:
+Start Date: [12/12/2025]
+End Date: [12/12/2025]
+
+Communication Plan:
+Meetings: [Hourly]
+Channels: [Teams]
+Reporting: [Status updates, dashboards]
+
+Decision-Making:
+Outline how decisions will be made (e.g., consensus, project manager approval).
+
+Ground Rules:
+Respect deadlines
+Clear and timely communication
+Accountability for assigned tasks
+
+Sign-Off:
+All team members agree to the above charter.
+[Signatures or names]
+
+
+
+===================================
+Meeting Logs
+
+First meeting 11:00 12/12/2025
+Opening meeting to complete team charter.
+
+
+Second meeting 11:30 12/12/2025
+Ethics & Compliance Checklist handed to TM.
+Costed Project Plan (Excel/Word) handed to DB.
+Decided to do AI-Driven Financial Fraud Detection System.
+GitHub Link + Commit History Screenshot handed to TS.
+Deployed AI Demo (URL) handed to TS.
+
+=====================================
+
+High‑Level Timeline (29 weeks)
+
+Assumptions: Medium‑large bank/fintech; real‑time requirements; existing data warehouse; cloud preferred.
+
+Phase 0 – Mobilize (2 weeks)
+
+Charter, scope, success metrics, budget, team, access, environments.
+Security review; data handling standards.
+
+Phase 1 – Discovery & Compliance (4 weeks)
+
+Data mapping.
+POPIA impact assessment.
+Model risk governance plan.
+
+Phase 2 – Data & Platform Foundations (9 weeks)
+
+Extracting data.
+Data quality.
+Environments.
+
+Phase 3 – Modeling & Decisioning (9 weeks)
+
+Baseline rules, anomaly models, supervised ML.
+Label strategy & class imbalance handling.
+
+Phase 4 – Production & Iteration (5 weeks)
+
+Go into production.
+Optimization.
+Sign off
+
+===========================================
+
+Team Reflection Report
+Project Name: AI-Driven Financial Fraud Detection System Room 4
+
+Date: 12/12/2025
+
+Team Members:
+Project Manager: VJ
+TS: AI Developer
+TM: Data & Ethics Officer
+DB: Business & Cost Analyst
+AP: UI/UX & Deployment Specialist
+JM: Quality & Security Reviewer
+
+1. Purpose of the Report
+This reflection report will cover 
+Team performance
+Identify strengths and areas for improvement
+Future collaboration
+
+2. Summary of Project
+
+Objectives:
+Reduction in false positives.
+Improvement in fraud detection rate.
+
+Deliverables:
+Team Charter (signed) 
+Meeting Logs (min. 6 dated entries) 
+Ethics & Compliance Checklist 
+Costed Project Plan (Excel/Word) 
+GitHub Link + Commit History Screenshot 
+Deployed AI Demo (URL + video < 3 min) 
+Team Reflection Report (800–1200 words) 
+Individual Contribution Log (each member)
+
+Timeline:
+The project was completed within 29 weeks.
+
+
+3. Team Performance
+
+Strengths:
+Effective communication
+Strong collaboration
+Meeting deadlines
+
+Challenges:
+Time management issues
+Resource constraints
+Conflicting priorities
+Daniel did not want to join our group.......
+
+4. Individual Contributions
+
+Briefly outline each member’s role and contributions.
+e.g. VJ: Led planning and coordination, ensured timely updates.
+
+5. Lessons Learned
+
+Improve communication channels
+Set clearer deadlines
+Allocate resources more effectively
+
+=================================================
+Individual Contribution Log Template
+Project Name:
+Contributor Name:
+Date Range:
+
+1. Task Details
+
+Task Name:
+Description:
+Assigned Date:
+Completion Date:
+
+
+2. Contribution Summary
+
+Actions Taken:
+Tools/Resources Used:
+Collaboration (if any):
+
+
+3. Time Spent
+
+Estimated Hours:
+Actual Hours:
+
+
+4. Challenges & Solutions
+
+Challenges Faced:
+How They Were Resolved:
+
+
+5. Outcome
+
+Deliverable Produced:
+Impact on Project:
+
